@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NailHeal™ Premium Patches | BharatCart</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .product-page-container {
+            max-width: 1300px; margin: 40px auto; padding: 0 20px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+        }
+        .gallery-main {
+            width: 100%; border-radius: 24px; overflow: hidden; margin-bottom: 20px;
+            background: white; border: 1px solid var(--border-light);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+        .gallery-main img { width: 100%; display: block; }
+        .gallery-thumbnails { display: flex; gap: 16px; }
+        .thumbnail {
+            width: 90px; height: 90px; border-radius: 16px; cursor: pointer;
+            border: 2px solid transparent; object-fit: cover; opacity: 0.6;
+            transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .thumbnail.active, .thumbnail:hover { opacity: 1; border-color: var(--primary); transform: translateY(-3px); }
+        
+        .product-details h1 { font-size: 36px; font-weight: 800; margin-bottom: 16px; line-height: 1.2; letter-spacing: -0.5px; color: var(--text-main); }
+        .product-rating { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; }
+        .product-rating .rating-badge { margin-bottom: 0; font-size: 14px; padding: 6px 12px; }
+        
+        .product-price-section {
+            display: flex; align-items: baseline; gap: 16px; margin-bottom: 30px;
+            padding-bottom: 30px; border-bottom: 1px solid var(--border-light);
+        }
+        .product-price-section .current { font-size: 42px; font-weight: 800; color: var(--primary); }
+        .product-price-section .original { font-size: 22px; color: var(--text-muted); text-decoration: line-through; }
+        .product-price-section .tag { background: rgba(255,107,0,0.1); color: var(--primary); padding: 6px 12px; border-radius: 6px; font-size: 15px; font-weight: 700; border: 1px solid rgba(255,107,0,0.2); }
+        
+        .buy-now-btn {
+            width: 100%; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; border: none; padding: 14px; font-size: 16px; font-weight: 800;
+            border-radius: 50px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 12px;
+            transition: all 0.3s ease; box-shadow: 0 10px 30px var(--primary-glow); letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+        .buy-now-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px var(--primary-glow); }
+        
+        .trust-badges { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+        .trust-badge { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; color: var(--text-main); background: white; padding: 16px; border-radius: 16px; border: 1px solid var(--border-light); box-shadow: 0 5px 20px rgba(0,0,0,0.02); }
+        .trust-badge i { font-size: 24px; color: var(--primary); }
+        
+        .product-description-content { margin-top: 40px; background: white; padding: 30px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); border: 1px solid var(--border-light); }
+        .product-description-content h2 { font-size: 28px; margin-bottom: 20px; color: var(--text-main); }
+        .product-description-content p, .product-description-content li { font-size: 17px; color: var(--text-muted); margin-bottom: 16px; }
+        .product-description-content ul { padding-left: 0; }
+        .product-description-content li { display: flex; align-items: center; gap: 10px; }
+        .product-description-content li i { color: var(--success); }
+        
+        .hamburger { display: none; background: none; border: none; font-size: 24px; color: var(--text-main); cursor: pointer; }
+        
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .header-links { position: absolute; top: 100%; left: 0; width: 100%; background: white; flex-direction: column; padding: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-top: 1px solid var(--border-light); display: none; }
+            .header-links.show { display: flex; }
+            .header-links a { margin: 10px 0; text-align: center; display: block; }
+        }
+        
+        .social-proof-popup {
+            position: fixed; top: 90px; left: 20px; background: white;
+            border: 1px solid var(--border-light);
+            border-radius: 10px; padding: 10px; display: flex; align-items: center; gap: 10px;
+            z-index: 999; transform: translateY(-150%); opacity: 0; transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08); max-width: 300px;
+        }
+        .social-proof-popup.show { transform: translateY(0); opacity: 1; }
+        .sp-img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--primary); }
+        .sp-text { font-size: 13px; color: var(--text-main); line-height: 1.3; }
+        .sp-text strong { color: var(--primary); }
+        .sp-time { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+        
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        
+        @media (max-width: 992px) { .product-page-container { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) {
+            .product-price-section { flex-wrap: wrap; }
+            .trust-badges { grid-template-columns: 1fr; }
+            .social-proof-popup { width: 90%; left: 5%; top: auto; bottom: 20px; }
+        }
+        @media (max-width: 480px) {
+            .product-page-container { padding: 0 15px; margin: 20px auto; }
+            .gallery-thumbnails { overflow-x: auto; padding-bottom: 5px; }
+            .thumbnail { min-width: 70px; width: 70px; height: 70px; }
+            .product-details h1 { font-size: 26px; }
+            .form-group[style*="display: flex"] { flex-direction: column !important; gap: 16px !important; }
+            .checkout-modal { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-glow"></div>
+
+    <div class="top-marquee">
+        <div class="marquee-content">
+            ⚡ FLASH SALE: UP TO 50% OFF &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 🚚 FREE SECURE SHIPPING &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⭐ 100K+ HAPPY CUSTOMERS &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 🛡️ 100% SECURE CHECKOUT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 🔄 7-DAY EASY RETURNS &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚡ FLASH SALE: UP TO 50% OFF &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 🚚 FREE SECURE SHIPPING
+        </div>
+    </div>
+
+    <header class="main-header">
+        <a href="index.html" class="logo">Bharat<span>Cart.</span></a>
+        <button class="hamburger" onclick="document.getElementById('nav-links').classList.toggle('show')"><i class="fas fa-bars"></i></button>
+        <nav class="header-links" id="nav-links">
+            <a href="index.html">Shop</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main class="product-page-container">
+        <!-- Gallery -->
+        <div class="product-gallery fade-up">
+            <div class="gallery-main">
+                <img id="main-product-img" src="https://images.unsplash.com/photo-1590159763121-7c11b017b29d?auto=format&fit=crop&q=80&w=800" alt="NailHeal Patches Main">
+            </div>
+            <div class="gallery-thumbnails">
+                <img src="https://images.unsplash.com/photo-1590159763121-7c11b017b29d?auto=format&fit=crop&q=80&w=200" class="thumbnail active" onclick="changeImage(this)">
+                <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80&w=200" class="thumbnail" onclick="changeImage(this)">
+                <img src="https://images.unsplash.com/photo-1516975080661-46bfa20b666a?auto=format&fit=crop&q=80&w=200" class="thumbnail" onclick="changeImage(this)">
+            </div>
+        </div>
+
+        <!-- Details -->
+        <div class="product-details fade-up delay-1">
+            <div style="color: var(--primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 13px; margin-bottom: 10px;">Best Seller</div>
+            <h1>NailHeal™ - Premium Fungal Nail Patches 🌿💅 (Pack of 21)</h1>
+            
+            <div class="product-rating">
+                <div class="rating-badge"><i class="fas fa-star"></i> 4.8</div>
+                <span style="color: var(--text-muted);">(2,145 Reviews)</span>
+                <span style="color: var(--success); font-weight: 600;"><i class="fas fa-check-circle"></i> Verified Quality</span>
+            </div>
+            
+            <div class="product-price-section">
+                <span class="current">₹499</span>
+                <span class="original">₹698</span>
+                <span class="tag">SAVE 28%</span>
+            </div>
+
+            <button class="buy-now-btn" onclick="openCheckout()">
+                <i class="fas fa-shopping-cart"></i> BUY NOW - CASH ON DELIVERY
+            </button>
+
+            <div class="trust-badges">
+                <div class="trust-badge"><i class="fas fa-truck-fast"></i> Free Express Shipping</div>
+                <div class="trust-badge"><i class="fas fa-shield-halved"></i> 100% Secure Payment</div>
+                <div class="trust-badge"><i class="fas fa-rotate-left"></i> 7-Day Easy Returns</div>
+                <div class="trust-badge"><i class="fas fa-award"></i> Premium Quality Assured</div>
+            </div>
+
+            <div class="product-description-content">
+                <h2>Why Choose NailHeal™?</h2>
+                <p>Experience the revolution in nail care. NailHeal™ patches provide a painless, effortless way to restore damaged nails to their natural glory using advanced botanical extracts.</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> <strong>Visible Results:</strong> Noticeable improvement in days.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>100% Natural:</strong> Infused with premium essential oils.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Painless & Safe:</strong> Zero harsh chemicals.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkoutOverlay">
+        <div class="checkout-modal" style="max-height: 90vh; overflow-y: auto;">
+            <button class="close-modal" onclick="closeCheckout()"><i class="fas fa-times"></i></button>
+            <div style="margin-bottom: 24px; padding: 15px; background: #f8fafc; border-radius: 12px; border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <img src="https://images.unsplash.com/photo-1590159763121-7c11b017b29d?auto=format&fit=crop&q=80&w=100" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover; border: 1px solid #cbd5e1;">
+                    <div>
+                        <div style="font-weight: 700; color: var(--text-main); font-size: 16px;">NailHeal™ Patches</div>
+                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Pack of 21</div>
+                    </div>
+                </div>
+                <div style="font-weight: 800; font-size: 18px; color: var(--text-main);">₹499</div>
+            </div>
+            
+            <form onsubmit="submitOrder(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Enter Full Name" required>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <div style="display: flex; gap: 10px;">
+                        <span style="display: flex; align-items: center; padding: 0 15px; background: var(--bg-main); border: 1px solid #cbd5e1; border-radius: 12px; font-weight: 600;">+91</span>
+                        <input type="tel" placeholder="Enter Mobile Number" required pattern="[0-9]{10}" minlength="10" maxlength="10" style="flex: 1;" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Full Address</label>
+                    <textarea rows="3" placeholder="Enter Full Address (min 30 characters)" minlength="30" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Landmark</label>
+                    <input type="text" placeholder="Enter Landmark (min 18 characters)" minlength="18" required>
+                </div>
+                <div class="form-group" style="display: flex; gap: 16px;">
+                    <div style="flex: 1;">
+                        <label>Pincode</label>
+                        <input id="pincode" type="text" placeholder="6 digit pin code" required pattern="[0-9]{6}" oninput="fetchPincodeDetails()">
+                        <div id="pincode-loading" style="font-size: 12px; color: var(--primary); display: none; margin-top: 4px;">Fetching details...</div>
+                    </div>
+                    <div style="flex: 1;">
+                        <label>City</label>
+                        <input id="city" type="text" placeholder="Enter City" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>State</label>
+                    <select id="state" required style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 15px; outline: none; background: white; cursor: pointer;">
+                        <option value="" disabled selected>Select State</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                        <option value="Ladakh">Ladakh</option>
+                        <option value="Lakshadweep">Lakshadweep</option>
+                        <option value="Puducherry">Puducherry</option>
+                    </select>
+                </div>
+                
+                <div class="payment-selection" style="margin-bottom: 24px;">
+                    <label style="display: block; font-weight: 700; margin-bottom: 12px; color: var(--text-main);">Payment Method</label>
+                    
+                    <!-- Prepaid Option -->
+                    <label class="payment-option" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 16px; border: 2px solid var(--primary); background: rgba(255,107,0,0.05); border-radius: 10px; cursor: pointer; margin-bottom: 12px; transition: all 0.3s;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <input type="radio" name="payment_method" value="prepaid" checked onchange="updatePrice(true)" style="accent-color: var(--primary); transform: scale(1.3); margin: 0; cursor: pointer;">
+                            <div>
+                                <div style="font-weight: 700; color: var(--text-main); font-size: 15px; display: flex; align-items: center; gap: 8px;">
+                                    Pay via UPI / Cards
+                                    <span style="background: #22c55e; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800; letter-spacing: 0.5px; animation: pulse 2s infinite;">20% OFF</span>
+                                </div>
+                                <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px; font-weight: 500;">GPay, PhonePe, Paytm, Cards</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 6px; align-items: center;">
+                            <img src="https://cdn.iconscout.com/icon/free/png-256/free-upi-2085056-1747946.png" style="height: 26px; object-fit: contain; opacity: 1;" alt="UPI">
+                        </div>
+                    </label>
+
+                    <!-- COD Option -->
+                    <label class="payment-option" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 16px; border: 1px solid #cbd5e1; background: white; border-radius: 10px; cursor: pointer; transition: all 0.3s;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <input type="radio" name="payment_method" value="cod" onchange="updatePrice(false)" style="accent-color: var(--primary); transform: scale(1.3); margin: 0; cursor: pointer;">
+                            <div>
+                                <div style="font-weight: 700; color: var(--text-main); font-size: 15px;">Cash on Delivery</div>
+                                <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px; font-weight: 500;">Pay when you receive it</div>
+                            </div>
+                        </div>
+                        <i class="fas fa-hand-holding-usd" style="font-size: 20px; color: #94a3b8;"></i>
+                    </label>
+                </div>
+                
+
+
+                <button id="checkout-submit-btn" type="submit" class="buy-now-btn" style="margin-bottom: 0; background: var(--primary); box-shadow: 0 10px 30px var(--primary-glow); text-transform: uppercase; font-weight: 800; border-radius: 50px;">
+                    Submit Prepaid Order <i class="fas fa-check-circle" style="margin-left: 8px;"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="social-proof-popup" id="social-proof">
+        <img src="" class="sp-img" id="sp-img">
+        <div>
+            <div class="sp-text" id="sp-text"></div>
+            <div class="sp-time" id="sp-time"></div>
+        </div>
+    </div>
+
+    <footer style="background: white; border-top: 1px solid var(--border-light); padding: 80px 20px 100px;">
+        <div class="footer-content" style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <a href="index.html" class="logo" style="margin-bottom: 20px;">Bharat<span>Cart.</span></a>
+            <div class="footer-links" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-bottom: 40px;">
+                <a href="contact.html">Contact Us</a>
+                <a href="shipping-policy.html">Shipping Policy</a>
+                <a href="return-policy.html">Return Policy</a>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms.html">Terms & Conditions</a>
+            </div>
+            <div class="copyright" style="color: #94a3b8; font-size: 14px;">&copy; 2026 BharatCart Innovations. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        function openCheckout() {
+            document.getElementById('checkoutOverlay').classList.add('active');
+        }
+        function closeCheckout() {
+            document.getElementById('checkoutOverlay').classList.remove('active');
+        }
+
+        function updatePrice(isPrepaid) {
+            const btn = document.getElementById('checkout-submit-btn');
+            const options = document.querySelectorAll('.payment-option');
+            
+            if (isPrepaid) {
+                btn.innerHTML = 'Pay Online (₹399) <i class="fas fa-lock" style="margin-left: 8px;"></i>';
+                btn.style.background = 'var(--primary)';
+                btn.style.boxShadow = '0 10px 30px var(--primary-glow)';
+                options[0].style.border = '2px solid var(--primary)';
+                options[0].style.background = 'rgba(255,107,0,0.05)';
+                options[1].style.border = '1px solid #cbd5e1';
+                options[1].style.background = 'white';
+            } else {
+                btn.innerHTML = 'Place COD Order (₹499) <i class="fas fa-truck" style="margin-left: 8px;"></i>';
+                btn.style.background = '#22c55e';
+                btn.style.boxShadow = '0 10px 30px rgba(34, 197, 94, 0.3)';
+                options[1].style.border = '2px solid var(--primary)';
+                options[1].style.background = 'rgba(255,107,0,0.05)';
+                options[0].style.border = '1px solid #cbd5e1';
+                options[0].style.background = 'white';
+            }
+        }
+        
+        // Social proof animation loop
+        setTimeout(() => {
+            const sp = document.querySelector('.social-proof-popup');
+            if(sp) {
+                sp.classList.add('show');
+                setInterval(() => {
+                    sp.classList.toggle('show');
+                }, 8000); // Toggles every 8 seconds
+            }
+        }, 2000);
+
+        function submitOrder(e) {
+            e.preventDefault();
+            const isPrepaid = document.querySelector('input[name="payment_method"][value="prepaid"]').checked;
+            
+            if (isPrepaid) {
+                alert("🎉 Order saved! Redirecting you to complete the UPI Payment...");
+                window.location.href = "upi://pay?pa=prepaidorder@kotak&pn=BharatCart&am=399.00&cu=INR";
+            } else {
+                alert("🎉 Your COD order has been placed successfully! We will deliver it shortly.");
+            }
+            closeCheckout();
+        }
+        
+        async function fetchPincodeDetails() {
+            const pincodeInput = document.getElementById('pincode');
+            const cityInput = document.getElementById('city');
+            const stateSelect = document.getElementById('state');
+            const loadingText = document.getElementById('pincode-loading');
+            
+            if (pincodeInput.value.length === 6) {
+                loadingText.style.display = 'block';
+                try {
+                    const response = await fetch(`https://api.postalpincode.in/pincode/${pincodeInput.value}`);
+                    const data = await response.json();
+                    
+                    if (data && data[0].Status === 'Success') {
+                        const postOffice = data[0].PostOffice[0];
+                        cityInput.value = postOffice.District || postOffice.Block;
+                        
+                        // Select the state in dropdown
+                        const stateVal = postOffice.State;
+                        for (let i = 0; i < stateSelect.options.length; i++) {
+                            if (stateSelect.options[i].value === stateVal || stateSelect.options[i].text === stateVal) {
+                                stateSelect.selectedIndex = i;
+                                break;
+                            }
+                        }
+                    } else {
+                        // Keep inputs clear or let user type if pin fails
+                    }
+                } catch (err) {
+                    console.error("Error fetching pincode", err);
+                }
+                loadingText.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

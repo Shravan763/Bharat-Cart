@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return & Refund Policy | BharatCart</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .contact-form-wrapper { background: white; padding: 40px; border-radius: 24px; border: 1px solid var(--border-light); box-shadow: 0 20px 40px rgba(0,0,0,0.05); margin-top: 50px;}
+        .contact-form-wrapper h2 { font-size: 28px; margin-bottom: 24px; color: var(--text-main); }
+        .contact-form .form-group { margin-bottom: 20px; }
+        .contact-form label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main); }
+        .contact-form input, .contact-form textarea, .contact-form select { width: 100%; padding: 15px 20px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 16px; font-family: inherit; transition: all 0.3s; background: #f8fafc; }
+        .contact-form input:focus, .contact-form textarea:focus, .contact-form select:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(255,107,0,0.1); }
+        .submit-btn { background: var(--primary); color: white; border: none; padding: 16px 32px; border-radius: 50px; font-size: 18px; font-weight: 700; cursor: pointer; width: 100%; transition: all 0.3s ease; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px var(--primary-glow); }
+        
+        /* Custom File Upload Styling */
+        .file-upload-wrapper { position: relative; width: 100%; }
+        .file-input { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
+        .file-label { display: flex !important; flex-direction: column; align-items: center; justify-content: center; padding: 30px 20px; border: 2px dashed #cbd5e1; border-radius: 12px; background: #f8fafc; color: var(--text-muted) !important; transition: all 0.3s; z-index: 1; pointer-events: none; margin-bottom: 0 !important; font-weight: 500 !important; }
+        .file-input:hover + .file-label { border-color: var(--primary); background: rgba(255,107,0,0.02); }
+        
+        @media (max-width: 480px) {
+            .contact-form-wrapper { padding: 25px 20px; }
+            .contact-form > div[style*="display: flex"] { flex-direction: column; gap: 0 !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <a href="index.html" class="logo">Bharat<span>Cart.</span></a>
+        <nav class="header-links">
+            <a href="index.html">Shop</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <div style="text-align: center; padding: 60px 20px 30px; background: linear-gradient(135deg, rgba(255,107,0,0.05), rgba(0,0,0,0.02)); margin-bottom: 40px;">
+        <h1 style="font-size: 42px; font-weight: 800; color: var(--text-main); margin-bottom: 16px; letter-spacing: -1px;">Return & Refund Policy</h1>
+        <p style="color: var(--text-muted); font-size: 18px;">We guarantee a hassle-free return experience.</p>
+    </div>
+    <div class="container" style="max-width: 800px; padding-bottom: 80px;">
+        <div style="color: var(--text-muted); line-height: 1.8; font-size: 16px;">
+            <p><strong>1. 7-Day Easy Returns:</strong> We have a 7-day return policy, which means you have 7 days after receiving your item to request a return. To be eligible for a return, your item must be in the same condition that you received it, unworn or unused, with tags, and in its original packaging.</p>
+            <br>
+            <p><strong>2. Damages and Issues:</strong> Please inspect your order upon reception and contact us immediately if the item is defective, damaged or if you receive the wrong item, so that we can evaluate the issue and make it right.</p>
+            <br>
+            <p><strong>3. Refunds:</strong> We will notify you once we’ve received and inspected your return, and let you know if the refund was approved or not. If approved, you’ll be automatically refunded on your original payment method. For Cash on Delivery orders, we will require your bank account or UPI details to process the refund.</p>
+            <br>
+            <p><strong>4. How to start a return:</strong> To start a return, you can contact us at support@bharatcart.in. If your return is accepted, we’ll arrange a reverse pickup from your address at no extra cost.</p>
+        </div>
+
+        <!-- Return Form -->
+        <div class="contact-form-wrapper">
+            <h2>Initiate a Return / Refund</h2>
+            <form class="contact-form" id="returnForm" action="https://formspree.io/f/xeenkgoj" method="POST">
+                <input type="hidden" name="_subject" value="New Return Request">
+                <div style="display: flex; gap: 20px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>First Name <span style="color: red;">*</span></label>
+                        <input type="text" name="firstName" placeholder="Rahul" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Last Name <span style="color: red;">*</span></label>
+                        <input type="text" name="lastName" placeholder="Kumar" required>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div class="form-group" style="flex: 1; min-width: 250px;">
+                        <label>Email Address <span style="color: red;">*</span></label>
+                        <input type="email" name="email" placeholder="rahul@example.com" required>
+                    </div>
+                    <div class="form-group" style="flex: 1; min-width: 250px;">
+                        <label>Phone Number <span style="color: red;">*</span></label>
+                        <input type="tel" name="phone" placeholder="9876543210" pattern="[0-9]{10}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Order Number <span style="color: red;">*</span></label>
+                    <input type="text" name="orderNumber" placeholder="e.g. #BC12345" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Reason for Return / Refund <span style="color: red;">*</span></label>
+                    <textarea rows="5" name="message" placeholder="Please describe the issue..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Request <i class="fas fa-paper-plane" style="margin-left: 8px;"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <a href="index.html" class="logo" style="margin-bottom: 20px;">Bharat<span>Cart.</span></a>
+            <div class="footer-links">
+                <a href="contact.html">Contact Us</a>
+                <a href="shipping-policy.html">Shipping Policy</a>
+                <a href="return-policy.html">Return Policy</a>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms.html">Terms & Conditions</a>
+            </div>
+            <div class="copyright">&copy; 2026 BharatCart Innovations. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById("returnForm").addEventListener("submit", function(e) {
+            const btn = this.querySelector('.submit-btn');
+            btn.innerHTML = 'Submitting... <i class="fas fa-spinner fa-spin" style="margin-left: 8px;"></i>';
+        });
+    </script>
+</body>
+</html>
